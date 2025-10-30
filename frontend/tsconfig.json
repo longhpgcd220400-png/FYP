@@ -26,14 +26,17 @@
       "@/*": [
         "./*"
       ]
-    }
+    },
+    "types": ["node"]   // 👈 thêm dòng này
   },
   "include": [
-    "**/*.ts",
-    "**/*.tsx",
-    "next-env.d.ts",
-    ".next/types/**/*.ts"
-  ],
+  "next-env.d.ts",
+  "**/*.ts",
+  "**/*.tsx",
+  "types/**/*.d.ts",
+  ".next/types/**/*.ts"
+]
+,
   "exclude": [
     "node_modules"
   ]

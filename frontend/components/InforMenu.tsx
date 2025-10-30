@@ -1,70 +1,122 @@
 "use client";
 
 import { useState } from "react";
-import { Facebook, Instagram, Youtube, Info, X } from "lucide-react";
-import Link from "next/link";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  FaFacebookF,
+  FaTwitter,
+  FaPinterestP,
+  FaLinkedinIn,
+  FaVk,
+  FaWeibo,
+  FaInfo,
+} from "react-icons/fa";
 
 export default function InfoMenu() {
-  const [open, setOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [hoveredIcon, setHoveredIcon] = useState<string | null>(null);
+
+  const icons = [
+    {
+      name: "Facebook",
+      icon: <FaFacebookF />,
+      link: "https://facebook.com",
+      color: "bg-blue-500",
+      textColor: "text-blue-400",
+    },
+    {
+      name: "Twitter",
+      icon: <FaTwitter />,
+      link: "https://twitter.com",
+      color: "bg-black",
+      textColor: "text-gray-300",
+    },
+    {
+      name: "Pinterest",
+      icon: <FaPinterestP />,
+      link: "https://pinterest.com",
+      color: "bg-red-600",
+      textColor: "text-red-400",
+    },
+    {
+      name: "LinkedIn",
+      icon: <FaLinkedinIn />,
+      link: "https://linkedin.com",
+      color: "bg-blue-700",
+      textColor: "text-blue-400",
+    },
+    {
+      name: "VK",
+      icon: <FaVk />,
+      link: "https://vk.com",
+      color: "bg-blue-400",
+      textColor: "text-blue-300",
+    },
+    
+  ];
 
   return (
-    <div className="relative">
-      {/* Toggle Button */}
-      <button
-  onClick={() => setOpen(!open)}
-  className={`w-10 h-10 flex items-center justify-center rounded-full 
-    border-1 transition-all duration-500 
-    ${
-      open
-        ? "bg-gradient-to-r from-[#30cfd0] to-[#330867] border-transparent text-white rotate-180"
-        : "border-[#30cfd0] text-[#30cfd0] hover:bg-gradient-to-r hover:from-[#30cfd0] hover:to-[#330867] hover:text-white"
-    }
-    ${
-      open
-        ? "dark:bg-gradient-to-r dark:from-[#30cfd0] dark:to-[#330867] dark:border-transparent dark:text-white"
-        : "dark:border-[#30cfd0] dark:text-[#30cfd0] dark:hover:bg-gradient-to-r dark:hover:from-[#30cfd0] dark:hover:to-[#330867] dark:hover:text-white"
-    }`}
->
-      {open ? <X size={20} /> : <Info size={20} />}
-    </button>
-
-
-      {/* Dropdown Menu */}
-      <div
-        className={`absolute right-0 mt-3 w-52 rounded-xl shadow-lg overflow-hidden transform transition-all duration-500 origin-top 
-          ${open ? "scale-100 opacity-100" : "scale-95 opacity-0 pointer-events-none"} 
-          bg-gray-900 dark:bg-gray-900`}
+    <div
+      className="fixed top-[120%] right-6 flex flex-col items-center gap-2 z-50"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => {
+        setIsHovered(false);
+        setHoveredIcon(null);
+      }}
+    >
+      {/* Nút chính */}
+      <motion.div
+        whileHover={{ rotate: 90 }}
+        transition={{ type: "spring", stiffness: 400, damping: 15 }}
+        className="p-3 rounded-full bg-gradient-to-r from-pink-500 to-yellow-400 text-white shadow-lg cursor-pointer hover:scale-110 transition"
       >
-        <div className="flex flex-col p-4 gap-3">
-          <Link
-            href="https://facebook.com"
-            target="_blank"
-            className="flex items-center gap-3 hover:translate-x-1 transition-transform"
+        <FaInfo size={15} />
+      </motion.div>
+
+      {/* Các icon */}
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.3 }}
+            className="flex flex-col items-end gap-3 mt-2"
           >
-            <Facebook size={20} className="text-blue-600" />
-            <span className="text-blue-600 font-medium">Facebook</span>
-          </Link>
-          <Link
-            href="https://instagram.com"
-            target="_blank"
-            className="flex items-center gap-3 hover:translate-x-1 transition-transform"
-          >
-            <Instagram
-              size={20}
-              className="text-pink-500"
-            />
-            <span className="text-pink-500 font-medium">Instagram</span>
-          </Link>
-          <Link
-            href="https://youtube.com"
-            target="_blank"
-            className="flex items-center gap-3 hover:translate-x-1 transition-transform"
-          >
-            <Youtube size={20} className="text-red-600" />
-            <span className="text-red-600 font-medium">YouTube</span>
-          </Link>
-        </div>
-      </div>
+            {icons.map((item, i) => (
+              <motion.a
+                key={i}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
+                initial={{ opacity: 0, x: 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.05 }}
+                onMouseEnter={() => setHoveredIcon(item.name)}
+                onMouseLeave={() => setHoveredIcon(null)}
+                className={`group relative flex items-center gap-2 p-3 rounded-full text-white shadow-md hover:scale-110 backdrop-blur-md border border-pink-400/30 transition ${item.color}`}
+              >
+                {/* Tooltip chữ */}
+                <AnimatePresence>
+                  {hoveredIcon === item.name && (
+                    <motion.span
+                      initial={{ opacity: 0, x: 10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 10 }}
+                      transition={{ duration: 0.25 }}
+                      className={`absolute right-14 font-medium ${item.textColor} bg-black/70 px-3 py-1 rounded-md shadow-lg whitespace-nowrap`}
+                    >
+                      {item.name}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+
+                {item.icon}
+              </motion.a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

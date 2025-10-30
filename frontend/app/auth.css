@@ -3,8 +3,8 @@
 
 /* Root variables */
 :root {
-  --white: #fff;
-  --black: #16346e;
+  --white: linear-gradient(to right, #ec4899, #facc15);
+  --black: #1d438e;
   --lightBlue: #17a;  
 }
 
@@ -19,7 +19,7 @@
   padding: 1rem;
   width: 100%;
   margin: 0 auto;
-  margin-top: -30px;
+  margin-top: 30px;
   transform: translateX(-18%);
   
 }
@@ -102,6 +102,8 @@
 
 .auth-container .input-box input:focus,
 .auth-container .input-box input:valid {
+  outline: none;          /* không cho hiện viền khi focus */
+  box-shadow: none; 
   border-bottom-color: var(--lightBlue);
 }
 
@@ -157,7 +159,7 @@
 
 .auth-container form .linkTxt {
   font-size: 14px;
-  color: var(--black);
+  color: white;
   text-align: center;
   margin: 20px 0 10px;
 }
@@ -313,6 +315,49 @@
   .brand-box { top: 10px; gap: 8px; }
   .brand-title { font-size: 16px; }
 }
+
+/* Container social login */
+.social-container {
+  position: absolute;
+  left: 950px; /* đẩy nó ra bên trái */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: linear-gradient(to right, #ec4899, #facc15);
+  border: 2px solid var(--black);
+  box-shadow: 0 0 20px var(--black);
+  padding: 20px;
+  border-radius: 12px;
+  
+  text-align: center;
+}
+
+.social-container h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+/* Nút social */
+.social-container button {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.social-container button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255,255,255,0.3);
+}
+
+
 
 
 

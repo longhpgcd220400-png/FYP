@@ -30,7 +30,8 @@ export async function POST(req: Request) {
     // Thành công
     return NextResponse.json({
       message: "Login successful",
-      user: { id: user._id, username: user.username, email: user.email },
+      user: { _id: user._id, username: user.username, email: user.email },
+
     });
   } catch (error) {
     console.error("Login error:", error);
